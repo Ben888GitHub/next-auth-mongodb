@@ -1,0 +1,2 @@
+Google Auth Secret 
+https://console.cloud.google.com/apis/credentials/oauthclient/651574757293-81r7phmt0h107rughj668a5vguvkljuf.apps.googleusercontent.com?project=fir-v9-nextjs
