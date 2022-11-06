@@ -19,7 +19,18 @@ function SignIn() {
 		});
 		res = await res.json();
 		console.log(res);
+
 		setUserInfo({ email: '', password: '' });
+		if (res.message === 'Registered successfully') {
+			const login = await signIn('credentials', {
+				email: userInfo.email,
+				password: userInfo.password,
+				redirect: false
+			});
+			router.push('/products');
+		} else {
+			console.log(res?.error);
+		}
 	};
 
 	const handleLogin = async (e) => {
