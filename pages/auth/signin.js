@@ -1,8 +1,10 @@
 import { getSession, signIn, signOut } from 'next-auth/react';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 function SignIn() {
 	const [userInfo, setUserInfo] = useState({ email: '', password: '' });
+	const router = useRouter();
 
 	const handleGoogleSignIn = async () => {
 		await signIn('google', { callbackUrl: '/products' });
@@ -18,6 +20,22 @@ function SignIn() {
 		res = await res.json();
 		console.log(res);
 		setUserInfo({ email: '', password: '' });
+	};
+
+	const handleLogin = async (e) => {
+		e.preventDefault();
+
+		const res = await signIn('credentials', {
+			email: userInfo.email,
+			password: userInfo.password,
+			redirect: false
+		});
+		console.log(res);
+		if (res?.error) {
+			console.log(res.error);
+		} else if (res.status === 200) {
+			router.push('/products');
+		}
 	};
 
 	return (
@@ -46,7 +64,7 @@ function SignIn() {
 			/>
 			<br />
 			<br />
-			<button>Sign in</button>
+			<button onClick={handleLogin}>Sign in</button>
 			<br />
 			<br />
 			<button onClick={handleSignUp}>Sign up</button>
