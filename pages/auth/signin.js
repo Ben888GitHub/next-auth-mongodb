@@ -1,6 +1,10 @@
-import { getSession } from 'next-auth/react';
+import { getSession, signIn, signOut } from 'next-auth/react';
 
 function SignIn() {
+	const handleGoogleSignIn = async () => {
+		await signIn('google', { callbackUrl: '/products' });
+	};
+
 	return (
 		<div
 			style={{
@@ -23,7 +27,7 @@ function SignIn() {
 			<button>Sign up</button>
 			<br />
 			<br />
-			<button>Google Sign In</button>
+			<button onClick={handleGoogleSignIn}>Google Sign In</button>
 		</div>
 	);
 }
@@ -32,9 +36,7 @@ export default SignIn;
 
 export async function getServerSideProps(context) {
 	// const csrfToken = await getCsrfToken(context);
-
 	const { req } = context;
-	console.log(req);
 	const session = await getSession({ req });
 
 	// Protected Page
