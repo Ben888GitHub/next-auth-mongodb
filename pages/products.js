@@ -47,6 +47,27 @@ function Products({ allProducts }) {
 		setLoading(false);
 	};
 
+	const handleDeleteProduct = async (id) => {
+		setLoading(true);
+
+		const deleteProduct = await fetch(
+			`https://next-auth-mongodb-usages.vercel.app/api/products/${id}`,
+			{
+				method: 'DELETE',
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			}
+		);
+		deleteProduct = await deleteProduct.json();
+		console.log(deleteProduct);
+
+		const removeProduct = products.filter((product) => id !== product._id);
+		setProducts(removeProduct);
+
+		setLoading(false);
+	};
+
 	return (
 		<div
 			style={{
@@ -84,7 +105,9 @@ function Products({ allProducts }) {
 						<div key={idx}>
 							<h3>{product.title}</h3>
 							<p>{product.content}</p>
-							<button>Delete {product.title}</button>
+							<button onClick={() => handleDeleteProduct(product._id)}>
+								Delete {product.title}
+							</button>
 						</div>
 					))}
 				</>
