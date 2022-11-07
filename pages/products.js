@@ -19,16 +19,19 @@ function Products({ allProducts }) {
 
 	const handleAddPost = async (e) => {
 		setLoading(true);
-		const newProduct = await fetch('http://localhost:3000/api/products', {
-			method: 'POST',
-			body: JSON.stringify({
-				title: title,
-				content: content,
-				author: {
-					email: session?.user?.email
-				}
-			})
-		});
+		const newProduct = await fetch(
+			'https://next-auth-mongodb-usages.vercel.app/api/products',
+			{
+				method: 'POST',
+				body: JSON.stringify({
+					title: title,
+					content: content,
+					author: {
+						email: session?.user?.email
+					}
+				})
+			}
+		);
 		newProduct = await newProduct.json();
 		console.log(newProduct);
 
@@ -105,7 +108,7 @@ export const getServerSideProps = async (context) => {
 	}
 
 	const res = await fetch(
-		`http://localhost:3000/api/products/${session?.user?.email}`,
+		`https://next-auth-mongodb-usages.vercel.app/api/products/${session?.user?.email}`,
 		{
 			method: 'GET',
 			headers: {
